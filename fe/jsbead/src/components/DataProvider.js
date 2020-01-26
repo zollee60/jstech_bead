@@ -37,9 +37,7 @@ export default function DataProvider({children}) {
     
     const context = {
         stringNormal,
-        setSN,
         stringBase64,
-        setSB,
         encode,
         decode
     };
