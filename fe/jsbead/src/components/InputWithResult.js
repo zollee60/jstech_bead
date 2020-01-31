@@ -1,25 +1,26 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useRef, useEffect} from 'react';
 import { DataContext } from './DataProvider'
 
 export default function InputWithResult({func,id}){
-    const { encode } = useContext(DataContext);
-    const { decode } = useContext(DataContext);
-    const { stringNormal } = useContext(DataContext);
-    const { stringBase64 } = useContext(DataContext);
+    const { encode, decode, stringNormal, stringBase64 } = useContext(DataContext);
+    const [inputString, setInputString] = useState('');
+    const input = useRef();
 
-    async function handleSend(){
-        let string = document.getElementById(id).value;
+    useEffect(() => {
         if(func === 'encode'){
-           await encode(string);
-        }else{
-           await decode(string);
-        }
+            encode(inputString);
+         }else{
+            decode(inputString);
+         } 
+    })
 
+    function handleSend(){
+        setInputString(input.current.value);   
     }
 
     return (
         <div>
-            <input type="text" id={id}/>
+            <input type="text" id={id} ref={input} />
             <button onClick={() => {handleSend()}}>{func === 'encode' ? 'Kódol' : 'Dekódol'}</button>
             {
             func === 'encode' ? 
